@@ -1,0 +1,11 @@
+---
+
+#staticsite_id
+
+staticsite_type: generic
+staticsite_domains: []
+staticsite_group: www
+staticsite_base_path: /srv/www
+staticsite_autoindex: no
+staticsite_custom_404: ""
+staticsite_custom_rules: []

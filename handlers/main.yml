@@ -1,0 +1,13 @@
+---
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+
+- name: genhomedircon
+  command: /usr/sbin/genhomedircon
+
+- name: restorecon /srv/www
+  command: /usr/sbin/restorecon -R /srv/www
+
