@@ -1,21 +1,21 @@
-{% for domain in staticsite_domains[1:] %}
+{% for domain in nginx_static_domains[1:] %}
 server {
   server_name                  {{ domain }};
-  return                       301 $scheme://{{ staticsite_domains[0] }}$request_uri;
+  return                       301 $scheme://{{ nginx_static_domains[0] }}$request_uri;
 }
 {% endfor %}
 
 server {
     listen                          80;
-    server_name                     {{ staticsite_domains[0] }};
-    root                            {{ staticsite_base_path }}/{{ staticsite_id }};
+    server_name                     {{ nginx_static_domains[0] }};
+    root                            {{ nginx_static_base_path }}/{{ nginx_static_id }};
 
     location / {
       index                         index.htm index.html;
-{% if staticsite_autoindex %}
+{% if nginx_static_autoindex %}
       autoindex                     on;
 {% endif %}
-{% for entry in staticsite_custom_rules %}
+{% for entry in nginx_static_custom_rules %}
       {{ entry }}
 {% endfor %}
     }
@@ -26,12 +26,12 @@ server {
 
     #location ^~ /error/ {
     #    internal;
-    #    root {{ staticsite_base_path }}/{{ staticsite_id }}/htdocs;
+    #    root {{ nginx_static_base_path }}/{{ nginx_static_id }}/htdocs;
     #}
 
-{% if staticsite_custom_404  %}
-    error_page 404                 {{ staticsite_custom_404 }};
-    location = {{ staticsite_custom_404 }} {
+{% if nginx_static_custom_404  %}
+    error_page 404                 {{ nginx_static_custom_404 }};
+    location = {{ nginx_static_custom_404 }} {
         internal;
     }
 {% endif %}
@@ -45,7 +45,7 @@ server {
       deny                     all;
     }
 
-    access_log /var/log/nginx/{{ staticsite_id }}-access.log main;
-    error_log  /var/log/nginx/{{ staticsite_id }}-error.log  warn;
+    access_log /var/log/nginx/{{ nginx_static_id }}-access.log main;
+    error_log  /var/log/nginx/{{ nginx_static_id }}-error.log  warn;
 
 }

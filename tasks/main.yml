@@ -2,23 +2,23 @@
 
 - name: Create user
   user:
-    name: "{{ staticsite_id }}"
-    group: "{{ staticsite_group }}"
-    comment: "Static Website - {{ staticsite_id }}"
-    home: "{{ staticsite_base_path }}/{{ staticsite_id }}"
+    name: "{{ nginx_static_id }}"
+    group: "{{ nginx_static_group }}"
+    comment: "Static Website - {{ nginx_static_id }}"
+    home: "{{ nginx_static_base_path }}/{{ nginx_static_id }}"
     createhome: no
     shell: /sbin/nologin
     password: "!!"
     update_password: always
     state: present
-  when: staticsite_type != 'redirect'
+  when: nginx_static_type != 'redirect'
 #  notify:
 #    - genhomedircon
 #    - restorecon /srv/www
 
 #- name: Remove unnecessary files
 #  file:
-#    path: "{{ staticsite_base_path }}/{{ staticsite_id }}/{{ item }}"
+#    path: "{{ nginx_static_base_path }}/{{ nginx_static_id }}/{{ item }}"
 #    state: absent
 #  with_items:
 #    - .bash_logout
@@ -29,28 +29,28 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ staticsite_id }}"
-    group: "{{ staticsite_group }}"
+    owner: "{{ nginx_static_id }}"
+    group: "{{ nginx_static_group }}"
   with_items:
-    - "{{ staticsite_base_path }}/{{ staticsite_id }}"
-  when: staticsite_type != 'redirect'
+    - "{{ nginx_static_base_path }}/{{ nginx_static_id }}"
+  when: nginx_static_type != 'redirect'
   notify:
     - genhomedircon
     - restorecon /srv/www
 
 - name: Update authorized_keys
   authorized_key:
-    user: "{{ staticsite_id }}"
-    key: "{{ staticsite_authorized_key }}"
+    user: "{{ nginx_static_id }}"
+    key: "{{ nginx_static_authorized_key }}"
     exclusive: yes
     manage_dir: yes
     state: present
-  when: "staticsite_type != 'redirect'"
+  when: "nginx_static_type != 'redirect'"
 
 - name: Configure nginx
   template:
-    src: "{{ staticsite_type }}.conf.j2"
-    dest: "/etc/nginx/conf.d/{{ staticsite_id }}.conf"
+    src: "{{ nginx_static_type }}.conf.j2"
+    dest: "/etc/nginx/conf.d/{{ nginx_static_id }}.conf"
     owner: root
     group: root
     mode: '0644'

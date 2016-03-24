@@ -1,5 +1,5 @@
 server {
     listen                          80;
-    server_name                     {{ staticsite_domains|join(' ') }};
-    return 301                      {{ staticsite_redirect_url }} ;
+    server_name                     {{ nginx_static_domains|join(' ') }};
+    return 301                      {{ nginx_static_redirect_url }} ;
 }
