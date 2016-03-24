@@ -1,11 +1,11 @@
 ---
 
-#staticsite_id
+#nginx_static_id
 
-staticsite_type: generic
-staticsite_domains: []
-staticsite_group: www
-staticsite_base_path: /srv/www
-staticsite_autoindex: no
-staticsite_custom_404: ""
-staticsite_custom_rules: []
+nginx_static_type: generic
+nginx_static_domains: []
+nginx_static_group: www
+nginx_static_base_path: /srv/www
+nginx_static_autoindex: no
+nginx_static_custom_404: ""
+nginx_static_custom_rules: []
