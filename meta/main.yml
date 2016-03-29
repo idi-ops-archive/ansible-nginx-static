@@ -1,0 +1,6 @@
+---
+
+galaxy_info:
+  description: Configures an Nginx virtual host
+  min_ansible_version: 1.9
+dependencies: []
