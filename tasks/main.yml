@@ -11,19 +11,7 @@
     password: "!!"
     update_password: always
     state: present
-  when: nginx_static_type != 'redirect'
-#  notify:
-#    - genhomedircon
-#    - restorecon /srv/www
-
-#- name: Remove unnecessary files
-#  file:
-#    path: "{{ nginx_static_base_path }}/{{ nginx_static_id }}/{{ item }}"
-#    state: absent
-#  with_items:
-#    - .bash_logout
-#    - .bash_profile
-#    - .bashrc
+  when: (nginx_static_type != 'redirect') or (not is_docker) or (not is_vagrant)
 
 - name: Create directories
   file:
@@ -33,7 +21,7 @@
     group: "{{ nginx_static_group }}"
   with_items:
     - "{{ nginx_static_base_path }}/{{ nginx_static_id }}"
-  when: nginx_static_type != 'redirect'
+  when: (nginx_static_type != 'redirect') or (not is_docker) or (not is_vagrant)
   notify:
     - genhomedircon
     - restorecon /srv/www
@@ -45,7 +33,7 @@
     exclusive: yes
     manage_dir: yes
     state: present
-  when: "nginx_static_type != 'redirect'"
+  when: (nginx_static_type != 'redirect') or (not is_docker) or (not is_vagrant)
 
 - name: Configure nginx
   template:
@@ -57,3 +45,5 @@
     backup: no
   notify:
     - restart nginx
+  tags:
+    - configure
