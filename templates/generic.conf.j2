@@ -8,7 +8,11 @@ server {
 server {
     listen                          80;
     server_name                     {{ nginx_static_domains[0] }};
+{% if is_docker or is_vagrant %}
+    root                            {{ nginx_static_base_path }};
+{% else %}
     root                            {{ nginx_static_base_path }}/{{ nginx_static_id }};
+{% endif %}
 
     location / {
       index                         index.htm index.html;
@@ -45,7 +49,12 @@ server {
       deny                     all;
     }
 
+{% if is_docker or is_vagrant %}
+    access_log /var/log/nginx/access.log main;
+    error_log  /var/log/nginx/error.log  warn;
+{% else %}
     access_log /var/log/nginx/{{ nginx_static_id }}-access.log main;
     error_log  /var/log/nginx/{{ nginx_static_id }}-error.log  warn;
+{% endif %}
 
 }

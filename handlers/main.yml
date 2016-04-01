@@ -4,10 +4,11 @@
   service:
     name: nginx
     state: restarted
+  when: not is_docker
 
 - name: genhomedircon
   command: /usr/sbin/genhomedircon
 
 - name: restorecon /srv/www
   command: /usr/sbin/restorecon -R /srv/www
-
+  
