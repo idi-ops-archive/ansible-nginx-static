@@ -1,13 +1,6 @@
-{% for domain in nginx_static_domains[1:] %}
-server {
-  server_name                  {{ domain }};
-  return                       301 $scheme://{{ nginx_static_domains[0] }}$request_uri;
-}
-{% endfor %}
-
 server {
     listen                          80;
-    server_name                     {{ nginx_static_domains[0] }};
+    server_name                     {{ nginx_static_domains|join(' ') }};
 {% if is_docker or is_vagrant %}
     root                            {{ nginx_static_base_path }};
 {% else %}
